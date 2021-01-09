@@ -1,0 +1,7 @@
+;; Object cedet-extensions
+;; EDE Project Files are auto generated: Do Not Edit
+(ede-proj-project "cedet-extensions"
+  :file "Project.ede"
+  :name "cedet-extensions"
+  :targets nil
+  :object-name "cedet-extensions")

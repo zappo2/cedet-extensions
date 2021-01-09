@@ -1,0 +1,13 @@
+;; Object semantic
+;; EDE Project Files are auto generated: Do Not Edit
+(ede-proj-project "semantic"
+  :file "Project.ede"
+  :name "semantic"
+  :targets
+  (list
+    (ede-proj-target-elisp "lisp"
+      :object-name "lisp"
+      :name "lisp"
+      :path ""
+      :source '("cedet-java.el")))
+  :object-name "semantic")

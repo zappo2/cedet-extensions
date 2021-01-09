@@ -1,0 +1,14 @@
+;; Object ede
+;; EDE Project Files are auto generated: Do Not Edit
+(ede-proj-project "ede"
+  :file "Project.ede"
+  :name "ede"
+  :targets
+  (list
+    (ede-proj-target-elisp "lisp"
+      :object-name "lisp"
+      :name "lisp"
+      :path ""
+      :source '("android.el" "arduino.el")
+      :aux-packages '("cedet-android" "cedet-java")))
+  :object-name "ede")

@@ -1,0 +1,13 @@
+;; Object cedet
+;; EDE Project Files are auto generated: Do Not Edit
+(ede-proj-project "cedet"
+  :file "Project.ede"
+  :name "cedet"
+  :targets
+  (list
+    (ede-proj-target-elisp "lisp"
+      :object-name "lisp"
+      :name "lisp"
+      :path ""
+      :source '("cedet-java.el" "cedet-android.el")))
+  :object-name "cedet")
