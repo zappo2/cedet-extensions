@@ -9,5 +9,10 @@
       :object-name "lisp"
       :name "lisp"
       :path ""
-      :source '("cedet-java.el")))
+      :source '("cedet-java.el")
+      :aux-packages '("cedet-java"))
+    (ede-proj-target-elisp-autoloads "loaddefs"
+      :object-name "loaddefs"
+      :name "loaddefs"
+      :path ""))
   :object-name "semantic")

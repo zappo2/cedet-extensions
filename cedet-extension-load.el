@@ -24,9 +24,6 @@
 
 ;;; Code:
 
-(when (featurep 'cedet-extension-load)
-  (error "CEDET extensions already loaded."))
-
 ;; This file must be in "<INSTALL-DIR>" where lisp/cedet is a subdirectory.
 (let ((CE-DIR (file-name-directory
 	       (or load-file-name (buffer-file-name)))))
