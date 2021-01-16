@@ -9,7 +9,7 @@
       :object-name "lisp"
       :name "lisp"
       :path ""
-      :source '("android.el" "arduino.el")
+      :source '("android.el" "arduino.el" "ede-patches.el")
       :aux-packages '("cedet-android" "cedet-java"))
     (ede-proj-target-elisp-autoloads "loaddefs"
       :object-name "loaddefs"

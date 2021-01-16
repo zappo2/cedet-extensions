@@ -38,6 +38,9 @@
   (load (expand-file-name "lisp/cedet/loaddefs.el" CE-DIR) nil t t)
   (load (expand-file-name "lisp/cedet/semantic/loaddefs.el" CE-DIR) nil t t)
   (load (expand-file-name "lisp/cedet/ede/loaddefs.el" CE-DIR) nil t t)
+
+  ;; Load in patches
+  (require 'ede/ede-patches)
   
   )
 

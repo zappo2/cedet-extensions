@@ -10,7 +10,7 @@
 top=../../
 ede_FILES=Project.ede Makefile
 
-lisp_LISP=android.el arduino.el
+lisp_LISP=android.el arduino.el ede-patches.el
 EMACSFLAGS=-batch --no-site-file --eval '(setq debug-on-error t)'
 EMACS=emacs
 EMACSFLAGS=-batch --no-site-file --eval '(setq debug-on-error t)'
