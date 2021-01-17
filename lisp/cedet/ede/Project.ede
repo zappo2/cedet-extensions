@@ -13,6 +13,7 @@
       :aux-packages '("cedet-android" "cedet-java"))
     (ede-proj-target-elisp-autoloads "loaddefs"
       :object-name "loaddefs"
-      :name "loaddefs"
-      :path ""))
+      :name "extension-loaddefs"
+      :path ""
+      :autoload-file "extension-loaddefs.el"))
   :object-name "ede")

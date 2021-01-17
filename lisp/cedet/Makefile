@@ -14,7 +14,7 @@ lisp_LISP=cedet-java.el cedet-android.el
 EMACSFLAGS=-batch --no-site-file --eval '(setq debug-on-error t)'
 EMACS=emacs
 EMACSFLAGS=-batch --no-site-file --eval '(setq debug-on-error t)'
-LOADDEFS=loaddefs.el
+LOADDEFS=extension-loaddefs.el
 require=$(foreach r,$(1),(require (quote $(r))))
 LOADPATH= ./
 LOADDIRS=.
@@ -23,7 +23,7 @@ DISTDIR=$(top)cedet-extensions-$(VERSION)/cedet
 
 
 
-all: lisp loaddefs semantic ede
+all: lisp extension-loaddefs semantic ede
 
 %.elc: %.el
 	$(EMACS) $(EMACSFLAGS) $(addprefix -L ,$(LOADPATH)) --eval '(progn $(call require, $(PRELOADS)))' -f batch-byte-compile $^
@@ -35,8 +35,8 @@ lisp: $(addsuffix c, $(lisp_LISP))
 clean-autoloads: 
 	rm -f $(LOADDEFS)
 
-.PHONY: loaddefs
-loaddefs: 
+.PHONY: extension-loaddefs
+extension-loaddefs: 
 	$(EMACS) $(EMACSFLAGS) $(addprefix -L ,$(LOADPATH)) --eval '(setq generated-autoload-file "$(abspath $(LOADDEFS))")' -f batch-update-autoloads $(abspath $(LOADDIRS))
 
 
@@ -58,9 +58,9 @@ clean:
 
 .PHONY: dist
 
-dist: loaddefs
+dist: extension-loaddefs
 	mkdir $(DISTDIR)
-	cp $(lisp_LISP) loaddefs.el $(ede_FILES) $(DISTDIR)
+	cp $(lisp_LISP) extension-loaddefs.el $(ede_FILES) $(DISTDIR)
 	$(MAKE) -C semantic $(MFLAGS) DISTDIR=$(DISTDIR)/semantic dist
 	$(MAKE) -C ede $(MFLAGS) DISTDIR=$(DISTDIR)/ede dist
 

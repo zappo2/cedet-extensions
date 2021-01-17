@@ -22,6 +22,8 @@
 ;; Setup paths to load code from the file layout of the cedet
 ;; extensions git repository.
 
+(require 'ede) ;; We will be modifying parts of EDE, so pull this in first.
+
 ;;; Code:
 
 ;; This file must be in "<INSTALL-DIR>" where lisp/cedet is a subdirectory.
@@ -31,13 +33,10 @@
   ;; SETUP LOAD PATHS
   (add-to-list 'load-path (expand-file-name "lisp/cedet" CE-DIR))
 
-  ;; Requirements before pulling in loaddefs
-  (require 'ede)
-
   ;; Load in the loaddefs
-  (load (expand-file-name "lisp/cedet/loaddefs.el" CE-DIR) nil t t)
-  (load (expand-file-name "lisp/cedet/semantic/loaddefs.el" CE-DIR) nil t t)
-  (load (expand-file-name "lisp/cedet/ede/loaddefs.el" CE-DIR) nil t t)
+  (load (expand-file-name "lisp/cedet/extension-loaddefs.el" CE-DIR) nil t t)
+  (load (expand-file-name "lisp/cedet/semantic/extension-loaddefs.el" CE-DIR) nil t t)
+  (load (expand-file-name "lisp/cedet/ede/extension-loaddefs.el" CE-DIR) nil t t)
 
   ;; Load in patches
   (require 'ede/ede-patches)

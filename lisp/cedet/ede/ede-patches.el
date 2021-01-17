@@ -23,8 +23,54 @@
 
 ;;; Code:
 
-(require 'ede)
 (require 'ede/auto)
+(require 'ede/proj) ;; So we can patch it
+
+;; WARNING: ORDER DEPENDENCY
+;; Type class type patches need to happen in a particular order
+;; so changes to baseclass can work their way into subclasses.
+(when (featurep 'ede/proj-elisp)
+  (error "ede patches loaded too late."))
+
+;; This function is needed early on for patching up data types in
+;; various classes.
+(defun ede-patches-type-of-slot (class slot &optional newtype)
+  "For CLASS and SLOT Get the :type.  If NEWTYPE is specified, modify it."
+  ;; Most of this is copied from eieio-oset and validate-slot Emacs
+  ;; 26, and hacked to focus on the type of the slot.  All error
+  ;; checking was removed since this is just about patching up old
+  ;; Emacsen
+  (let* ((class (eieio--class-object class))
+         (slot-idx (eieio--slot-name-index class slot)))
+    (if (not slot-idx)
+	;; It might be missing because it is a :class allocated slot.
+	;; Let's check that info out.
+	(error "Cannot patch %S %S: slot not found" class slot)
+      ;; Here we can  get the type
+      ;;(eieio--validate-slot-value class c value slot)
+
+      ;; Trim off object IDX junk added in for the object index.
+      (let* ((slot-idx (- slot-idx (eval-when-compile eieio--object-num-slots)))
+	     (cslots (eieio--class-slots class))
+	     (slotv (aref cslots slot-idx)))
+
+	(if newtype
+	    (progn
+					;(message "Setting ruletype to %S" newtype)
+	      (setf (cl--slot-descriptor-type slotv) newtype))
+					;(message "newtype not specified, doing get")
+	  (cl--slot-descriptor-type slotv))))))
+
+(when (eq (ede-patches-type-of-slot 'ede-proj-target-makefile 'rules) 'list)
+  ;; Type type from ancient CEDET was 'list for this slot.  This was fixed in CEDET
+  ;; repository, but patches didn't make it into EMACS.  This patches that up.
+  (ede-patches-type-of-slot 'ede-proj-target-makefile 'rules 'ede-makefile-rule-list)
+  )
+
+;; These for testing
+;(ede-patches-type-of-slot 'ede-proj-target-makefile 'rules)
+;(ede-patches-type-of-slot 'ede-proj-target-elisp 'rules)
+
 
 ;; PATCH: 
 (when (>= emacs-major-version 24)
@@ -43,6 +89,9 @@
 
 
 (when (not (fboundp 'ede-calc-fromconfig-in-patch))
+  ;; CEDET from sourceforge includes the below code.
+  ;; Patch was provided for Emacs 28 that will declare the above fcn
+  ;; and prevent loading this section.
 
   (cl-defmethod ede-calc-fromconfig-in-patch ((dirmatch ede-project-autoload-dirmatch))
     "Calculate the value of :fromconfig from DIRMATCH."
@@ -124,7 +173,7 @@
   ;; classes yet, and we can use it to fake existence of these names.
 
   (cl-defmethod slot-missing ((obj ede-proj-project)
-			   slot-name operation &optional new-value)
+			      slot-name operation &optional new-value)
     "Called when a non-existent slot is accessed.
 For `ede-proj-project', provide an imaginary `:object-name' slot.
 Argument OBJ is the named object.
@@ -142,7 +191,7 @@ a set type."
       (call-next-method)))
 
   (cl-defmethod slot-missing ((obj ede-target)
-			   slot-name operation &optional new-value)
+			      slot-name operation &optional new-value)
     "Called when a non-existent slot is accessed.
 For `ede-proj-project', provide an imaginary `:object-name' slot.
 Argument OBJ is the named object.
